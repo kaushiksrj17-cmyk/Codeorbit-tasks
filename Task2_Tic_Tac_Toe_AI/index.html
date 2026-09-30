@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play Tic-Tac-Toe against an intelligent AI featuring Easy, Medium, and unbeatable Minimax Hard difficulty modes.">
+  <title>Tic-Tac-Toe AI | Human vs Computer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Glow Accents -->
+  <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+
+  <div class="app-wrapper">
+    <!-- Header Section -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="badge-tag">
+          <span class="pulse-dot"></span>
+          <span>Internship Project • Task 2</span>
+        </div>
+        <div class="header-actions">
+          <!-- Sound Toggle -->
+          <button id="sound-toggle-btn" class="icon-btn" aria-label="Toggle Sound" title="Toggle Sound">
+            <svg id="sound-icon-on" class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <svg id="sound-icon-off" class="btn-svg hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+            <span class="sr-only">Toggle Sound</span>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button id="theme-toggle-btn" class="icon-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+            <!-- Moon for Dark Theme -->
+            <svg id="theme-icon-moon" class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <!-- Sun for Light Theme -->
+            <svg id="theme-icon-sun" class="btn-svg hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <span class="sr-only">Toggle Theme</span>
+          </button>
+        </div>
+      </div>
+
+      <h1 class="app-title">Tic-Tac-Toe <span class="gradient-text">AI</span></h1>
+      <p class="app-subtitle">Human (<strong>X</strong>) vs Computer (<strong>O</strong>) • Intelligent Game Engine</p>
+    </header>
+
+    <main class="main-content">
+      <!-- Controls Card: Difficulty & Primary Action -->
+      <section class="card controls-card" aria-label="Game Configuration">
+        <div class="difficulty-wrapper">
+          <label class="section-label" id="difficulty-label">AI Difficulty:</label>
+          <div class="difficulty-pill-group" role="radiogroup" aria-labelledby="difficulty-label">
+            <button type="button" class="diff-btn" data-difficulty="easy" role="radio" aria-checked="false">
+              Easy
+            </button>
+            <button type="button" class="diff-btn" data-difficulty="medium" role="radio" aria-checked="false">
+              Medium
+            </button>
+            <button type="button" class="diff-btn active" data-difficulty="hard" role="radio" aria-checked="true">
+              Hard (Minimax)
+            </button>
+          </div>
+        </div>
+
+        <div class="game-actions">
+          <button id="new-game-btn" class="primary-btn">
+            <svg class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span>New Game</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Status Banner -->
+      <div id="status-banner" class="status-banner" role="status" aria-live="polite">
+        <div class="status-content">
+          <span id="status-icon" class="status-icon" aria-hidden="true">🎮</span>
+          <span id="status-text" class="status-text">Your Turn (X) — Select a square</span>
+        </div>
+        <div id="ai-thinking-spinner" class="thinking-spinner hidden" aria-hidden="true">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+
+      <!-- Scoreboard Strip -->
+      <section class="scoreboard-strip" aria-label="Current Score">
+        <div id="player-score-card" class="score-card player active-turn">
+          <div class="score-label">
+            <span class="symbol-marker symbol-x">X</span>
+            <span>Player</span>
+          </div>
+          <span id="player-score-val" class="score-number">0</span>
+          <div class="turn-indicator" aria-hidden="true">Active Turn</div>
+        </div>
+
+        <div id="draws-score-card" class="score-card draws">
+          <div class="score-label">
+            <span class="symbol-marker symbol-tie">−</span>
+            <span>Draws</span>
+          </div>
+          <span id="draws-score-val" class="score-number">0</span>
+          <div class="turn-indicator invisible" aria-hidden="true">&nbsp;</div>
+        </div>
+
+        <div id="ai-score-card" class="score-card ai">
+          <div class="score-label">
+            <span class="symbol-marker symbol-o">O</span>
+            <span>AI</span>
+          </div>
+          <span id="ai-score-val" class="score-number">0</span>
+          <div class="turn-indicator invisible" aria-hidden="true">Active Turn</div>
+        </div>
+      </section>
+
+      <!-- The 3x3 Game Board -->
+      <section class="board-container" aria-label="Game Board Arena">
+        <div id="board" class="board" aria-label="Tic-Tac-Toe Game Board">
+          <button type="button" class="cell" data-index="0" aria-label="Row 1, Column 1, empty"></button>
+          <button type="button" class="cell" data-index="1" aria-label="Row 1, Column 2, empty"></button>
+          <button type="button" class="cell" data-index="2" aria-label="Row 1, Column 3, empty"></button>
+          <button type="button" class="cell" data-index="3" aria-label="Row 2, Column 1, empty"></button>
+          <button type="button" class="cell" data-index="4" aria-label="Row 2, Column 2, empty"></button>
+          <button type="button" class="cell" data-index="5" aria-label="Row 2, Column 3, empty"></button>
+          <button type="button" class="cell" data-index="6" aria-label="Row 3, Column 1, empty"></button>
+          <button type="button" class="cell" data-index="7" aria-label="Row 3, Column 2, empty"></button>
+          <button type="button" class="cell" data-index="8" aria-label="Row 3, Column 3, empty"></button>
+        </div>
+      </section>
+
+      <!-- Detailed Session Statistics Card -->
+      <section class="card stats-card" aria-label="Session Statistics">
+        <div class="stats-header">
+          <h2 class="card-title">Session Performance</h2>
+          <button id="reset-stats-btn" class="text-btn" title="Reset all score and session statistics">
+            Reset Statistics
+          </button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Total Games</span>
+            <span id="stat-total-games" class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Player Wins</span>
+            <span id="stat-player-wins" class="stat-value color-x">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">AI Wins</span>
+            <span id="stat-ai-wins" class="stat-value color-o">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Draws</span>
+            <span id="stat-draws" class="stat-value color-draw">0</span>
+          </div>
+        </div>
+
+        <!-- Win Rate Progress Bar -->
+        <div class="win-rate-wrapper">
+          <div class="win-rate-header">
+            <span>Player Win Rate</span>
+            <strong id="stat-win-rate">0.0%</strong>
+          </div>
+          <div class="progress-bar-bg" aria-hidden="true">
+            <div id="win-rate-bar" class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AI Algorithm Showcase / Educational Section -->
+      <section class="card info-card" aria-label="Algorithm Guide">
+        <h2 class="card-title">AI Engine Architecture</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-badge badge-easy">Easy</div>
+            <p><strong>Random Selection:</strong> Explores valid empty squares without heuristic checking. Ideal for casual testing.</p>
+          </div>
+          <div class="info-item">
+            <div class="info-badge badge-medium">Medium</div>
+            <p><strong>Rule-based Heuristic:</strong> Immediately seizes instant win opportunities, blocks opponent forks/wins, then prioritizes center and corners.</p>
+          </div>
+          <div class="info-item">
+            <div class="info-badge badge-hard">Hard</div>
+            <p><strong>Unbeatable Minimax:</strong> Recursive decision tree analysis evaluating all terminal board states with depth penalty for optimal strategy.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Built with Semantic HTML5, CSS3, &amp; Vanilla JavaScript • GitHub Pages Compatible</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
