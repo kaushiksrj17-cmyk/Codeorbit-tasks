@@ -1,0 +1,11 @@
+# Task 1: Rule-Based Chatbot
+# ==========================
+# Core Chatbot:
+# Built purely with the Python Standard Library (no external packages required).
+# - datetime (system date and time retrieval)
+# - random   (randomized response selection)
+# - re       (regular expression pattern matching)
+# - sys      (system process and exit control)
+#
+# Web Application UI (Streamlit):
+streamlit>=1.30.0

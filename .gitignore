@@ -1,0 +1,17 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# System / IDE
+.vscode/
+.idea/
+*.swp
+
+# Empty legacy folder
+Task1_Rule_Based_Chatbot/
