@@ -68,7 +68,7 @@ If the normalized text fails to match any exit commands, history actions, name p
 
 ## 7. Project Structure
 ```text
-Rule-based Chatbot/
+Rule_based_Chatbot/
 ├── app.py
 ├── chatbot.py
 ├── README.md
@@ -96,14 +96,14 @@ python --version
 ### Running the Chatbot (Terminal Interface)
 Navigate to the project directory and run `chatbot.py`:
 ```bash
-cd "Rule-based Chatbot"
+cd Rule_based_Chatbot
 python chatbot.py
 ```
 
 ### Running the Web Application (Streamlit)
 To launch the interactive modern browser-based interface:
 ```bash
-cd "Rule-based Chatbot"
+cd Rule_based_Chatbot
 streamlit run app.py
 ```
 

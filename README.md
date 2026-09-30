@@ -6,7 +6,7 @@ This repository contains internship task submissions for Codeorbit.
 
 | Task | Project Name | Description | Tech Stack |
 | :--- | :--- | :--- | :--- |
-| **Task 1** | [Rule-based Chatbot](./Rule-based%20Chatbot/) | Rule-based conversational chatbot with pattern matching & Streamlit UI | Python 3, Streamlit |
+| **Task 1** | [Rule-based Chatbot](./Rule_based_Chatbot/) | Rule-based conversational chatbot with pattern matching & Streamlit UI | Python 3, Streamlit |
 
 ---
 
@@ -14,12 +14,12 @@ This repository contains internship task submissions for Codeorbit.
 
 #### Terminal Interface:
 ```bash
-cd "Rule-based Chatbot"
+cd Rule_based_Chatbot
 python chatbot.py
 ```
 
 #### Streamlit Web App:
 ```bash
-cd "Rule-based Chatbot"
+cd Rule_based_Chatbot
 streamlit run app.py
 ```
